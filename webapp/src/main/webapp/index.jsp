@@ -1,60 +1,77 @@
-import java.util.Scanner;
-
-public class Calculator {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        double num1, num2;
-        System.out.println("Select operation:");
-        System.out.println("1. Add");
-        System.out.println("2. Subtract");
-        System.out.println("3. Multiply");
-        System.out.println("4. Divide");
-
-        System.out.print("Enter choice (1/2/3/4): ");
-        char choice = scanner.next().charAt(0);
-
-        System.out.print("Enter first number: ");
-        num1 = scanner.nextDouble();
-        System.out.print("Enter second number: ");
-        num2 = scanner.nextDouble();
-
-        switch(choice) {
-            case '1':
-                System.out.println("Result: " + add(num1, num2));
-                break;
-            case '2':
-                System.out.println("Result: " + subtract(num1, num2));
-                break;
-            case '3':
-                System.out.println("Result: " + multiply(num1, num2));
-                break;
-            case '4':
-                System.out.println("Result: " + divide(num1, num2));
-                break;
-            default:
-                System.out.println("Invalid input");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
         }
-        scanner.close();
+        .calculator {
+            width: 200px;
+            margin: 50px auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .calculator input[type="text"] {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 5px;
+            font-size: 20px;
+        }
+        .calculator button {
+            width: 45px;
+            height: 45px;
+            margin: 5px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="calculator">
+    <input type="text" id="result" disabled>
+    <button onclick="appendToResult('7')">7</button>
+    <button onclick="appendToResult('8')">8</button>
+    <button onclick="appendToResult('9')">9</button>
+    <button onclick="appendToResult('4')">4</button>
+    <button onclick="appendToResult('5')">5</button>
+    <button onclick="appendToResult('6')">6</button>
+    <button onclick="appendToResult('1')">1</button>
+    <button onclick="appendToResult('2')">2</button>
+    <button onclick="appendToResult('3')">3</button>
+    <button onclick="appendToResult('0')">0</button>
+    <button onclick="appendToResult('+')">+</button>
+    <button onclick="appendToResult('*')">*</button>
+    <button onclick="appendToResult('-')">-</button>
+    <button onclick="appendToResult('.')">.</button>
+    <button onclick="calculateResult()">=</button>
+    <button onclick="appendToResult('/')">/</button>
+    <button onclick="appendToResult('%')">%</button>
+    <button onclick="clearResult()">C</button>
+</div>
+
+<script>
+    function appendToResult(value) {
+        document.getElementById("result").value += value;
     }
 
-    public static double add(double x, double y) {
-        return x + y;
-    }
-
-    public static double subtract(double x, double y) {
-        return x - y;
-    }
-
-    public static double multiply(double x, double y) {
-        return x * y;
-    }
-
-    public static double divide(double x, double y) {
-        if (y == 0) {
-            System.out.println("Error! Division by zero.");
-            return 0;
-        } else {
-            return x / y;
+    function calculateResult() {
+        var result = document.getElementById("result");
+        try {
+            result.value = eval(result.value);
+        } catch (e) {
+            result.value = 'Error';
         }
     }
-}
+
+    function clearResult() {
+        document.getElementById("result").value = '';
+    }
+</script>
+
+</body>
+</html>
