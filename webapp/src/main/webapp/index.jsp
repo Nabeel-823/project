@@ -4,61 +4,108 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Sudoku Game</title>
+<title>Scientific Calculator</title>
 <style>
-    table {
-        border-collapse: collapse;
+    .calculator {
+        width: 300px;
         margin: 20px auto;
+        border: 1px solid #ccc;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
-    td {
-        width: 30px;
-        height: 30px;
-        border: 1px solid black;
-        text-align: center;
+    input[type="text"] {
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 5px;
+        font-size: 18px;
     }
-    input {
-        width: 30px;
-        height: 30px;
-        border: none;
-        text-align: center;
-        font-size: 16px;
-    }
-    .error {
-        color: red;
+    input[type="button"] {
+        width: 50px;
+        height: 50px;
+        font-size: 18px;
     }
 </style>
 </head>
 <body>
 
-<h1>Sudoku Game</h1>
-
-<form method="post">
+<div class="calculator">
+    <input type="text" id="display" readonly>
     <table>
-        <c:forEach var="row" begin="0" end="8">
-            <tr>
-                <c:forEach var="col" begin="0" end="8">
-                    <td>
-                        <c:set var="value" value="${board[row][col]}" />
-                        <c:choose>
-                            <c:when test="${value == 0}">
-                                <input type="text" name="cell${row}${col}" maxlength="1"
-                                    pattern="[1-9]" title="Enter a single digit (1-9)">
-                            </c:when>
-                            <c:otherwise>
-                                ${value}
-                            </c:otherwise>
-                        </c:choose>
-                    </td>
-                </c:forEach>
-            </tr>
-        </c:forEach>
+        <tr>
+            <td><input type="button" value="7" onclick="appendToDisplay('7')"></td>
+            <td><input type="button" value="8" onclick="appendToDisplay('8')"></td>
+            <td><input type="button" value="9" onclick="appendToDisplay('9')"></td>
+            <td><input type="button" value="/" onclick="appendToDisplay('/')"></td>
+            <td><input type="button" value="sin" onclick="scientific('sin')"></td>
+        </tr>
+        <tr>
+            <td><input type="button" value="4" onclick="appendToDisplay('4')"></td>
+            <td><input type="button" value="5" onclick="appendToDisplay('5')"></td>
+            <td><input type="button" value="6" onclick="appendToDisplay('6')"></td>
+            <td><input type="button" value="*" onclick="appendToDisplay('*')"></td>
+            <td><input type="button" value="cos" onclick="scientific('cos')"></td>
+        </tr>
+        <tr>
+            <td><input type="button" value="1" onclick="appendToDisplay('1')"></td>
+            <td><input type="button" value="2" onclick="appendToDisplay('2')"></td>
+            <td><input type="button" value="3" onclick="appendToDisplay('3')"></td>
+            <td><input type="button" value="-" onclick="appendToDisplay('-')"></td>
+            <td><input type="button" value="tan" onclick="scientific('tan')"></td>
+        </tr>
+        <tr>
+            <td><input type="button" value="0" onclick="appendToDisplay('0')"></td>
+            <td><input type="button" value="." onclick="appendToDisplay('.')"></td>
+            <td><input type="button" value="C" onclick="clearDisplay()"></td>
+            <td><input type="button" value="+" onclick="appendToDisplay('+')"></td>
+            <td><input type="button" value="sqrt" onclick="scientific('sqrt')"></td>
+        </tr>
+        <tr>
+            <td colspan="5"><input type="button" value="=" onclick="calculate()"></td>
+        </tr>
     </table>
-    <input type="submit" value="Check Solution">
-</form>
+</div>
 
-<c:if test="${not empty errorMessage}">
-    <p class="error">${errorMessage}</p>
-</c:if>
+<script>
+    function appendToDisplay(value) {
+        document.getElementById('display').value += value;
+    }
+
+    function clearDisplay() {
+        document.getElementById('display').value = '';
+    }
+
+    function calculate() {
+        try {
+            var result = eval(document.getElementById('display').value);
+            document.getElementById('display').value = result;
+        } catch (error) {
+            alert('Invalid expression');
+        }
+    }
+
+    function scientific(func) {
+        var val = parseFloat(document.getElementById('display').value);
+        var result;
+        switch (func) {
+            case 'sin':
+                result = Math.sin(val * Math.PI / 180);
+                break;
+            case 'cos':
+                result = Math.cos(val * Math.PI / 180);
+                break;
+            case 'tan':
+                result = Math.tan(val * Math.PI / 180);
+                break;
+            case 'sqrt':
+                result = Math.sqrt(val);
+                break;
+            default:
+                result = 0;
+        }
+        document.getElementById('display').value = result.toFixed(6);
+    }
+</script>
 
 </body>
 </html>
